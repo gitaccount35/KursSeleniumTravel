@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -48,11 +49,11 @@ public class TestHotel {
             searchdate2.clear();
             searchdate2.sendKeys("30/10/2026");
 
-            WebElement persons=wait.until(ExpectedConditions.visibilityOfElementLocated(
+            WebElement persons = wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.name("travellers")));
             persons.click();
             Thread.sleep(3000);
-            WebElement child=wait.until(ExpectedConditions.visibilityOfElementLocated(
+            WebElement child = wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.name("child")));
             child.clear();
             child.sendKeys("2");
@@ -64,18 +65,18 @@ public class TestHotel {
             submit.submit();
             Thread.sleep(2000);
 
-            List<String> hotelNames=driver.findElements(
-                    By.xpath("//h4[contains(@class,'list_title')]//b")).stream()
-                    .map((el-> el.getAttribute("textContent")))
-                            .collect(Collectors.toList());
+            List<String> hotelNames = driver.findElements(
+                            By.xpath("//h4[contains(@class,'list_title')]//b")).stream()
+                    .map((el -> el.getAttribute("textContent")))
+                    .collect(Collectors.toList());
 
             System.out.println(hotelNames.size());
             hotelNames.forEach(System.out::println);
 
-            Assert.assertEquals("Jumeirah Beach Hotel",hotelNames.get(0));
-            Assert.assertEquals("Oasis Beach Tower",hotelNames.get(1));
-            Assert.assertEquals("Rose Rayhaan Rotana",hotelNames.get(2));
-            Assert.assertEquals("Hyatt Regency Perth",hotelNames.get(3));
+            Assert.assertEquals("Jumeirah Beach Hotel", hotelNames.get(0));
+            Assert.assertEquals("Oasis Beach Tower", hotelNames.get(1));
+            Assert.assertEquals("Rose Rayhaan Rotana", hotelNames.get(2));
+            Assert.assertEquals("Hyatt Regency Perth", hotelNames.get(3));
 
         } finally {
             Thread.sleep(5000);
@@ -83,8 +84,56 @@ public class TestHotel {
         }
 
     }
+    @Test
+    public void SecondTest() throws InterruptedException {
+
+        WebDriverManager.edgedriver().setup();
+        WebDriver driver = new EdgeDriver();
+
+        try {
+            driver.manage().window().maximize();
+            driver.get("http://www.kurs-selenium.pl/demo/");
+
+            //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
 
+            WebElement searchdate1 = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector("input[name='checkin']")));
+            searchdate1.clear();
+            searchdate1.sendKeys("14/10/2026");
 
+            WebElement searchdate2 = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector("input[name='checkout']")));
+            searchdate2.clear();
+            searchdate2.sendKeys("30/10/2026");
+
+            WebElement persons = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.name("travellers")));
+            persons.click();
+            Thread.sleep(3000);
+            WebElement child = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.name("child")));
+            child.clear();
+            child.sendKeys("2");
+            child.sendKeys(Keys.ENTER);
+            Thread.sleep(2000);
+
+            WebElement submitbutton = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//button[text()=' Search']")));
+                    // By.cssSelector("button.btn-lg:nth-child(3)")));
+            submitbutton.click();
+            Thread.sleep(2000);
+
+            WebElement text=wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//h2[@class='text-center']")));
+            Assert.assertEquals(text.getText(),"No Results Found");
+
+
+        } finally {
+        Thread.sleep(5000);
+        driver.quit();
+    }
+    }
 
 }
