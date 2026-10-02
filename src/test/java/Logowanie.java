@@ -6,6 +6,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -38,8 +39,9 @@ public class Logowanie {
             driver.findElements(
                     By.xpath("//a[text()='  Sign Up']")).get(1).click();
 
+            String name="Piotr";
             WebElement firstname= driver.findElement(By.name("firstname"));
-            firstname.sendKeys("Piotr");
+            firstname.sendKeys(name);
 
             WebElement lastname= driver.findElement(By.name("lastname"));
             lastname.sendKeys("Test");
@@ -47,8 +49,10 @@ public class Logowanie {
             WebElement phone= driver.findElement(By.name("phone"));
             phone.sendKeys("+48500500500");
 
+            int randomNumber=(int)(Math.random()*10000);
+            String emailaddress="piotrmail"+randomNumber+"@gmail.com";
             WebElement email= driver.findElement(By.name("email"));
-            email.sendKeys("piotrmail@gmail.com");
+            email.sendKeys(emailaddress);
 
             WebElement password= driver.findElement(By.name("password"));
             password.sendKeys("12345678");
@@ -61,6 +65,11 @@ public class Logowanie {
             submitbutton.click();
 
             Thread.sleep(3000);
+
+            WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
+            Assert.assertTrue(heading.getText().contains(name));
+            Assert.assertEquals(heading.getText(), "Hi, Piotr Test");
+
 
         } finally {
             Thread.sleep(5000);
