@@ -1,24 +1,22 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class Logowanie {
+public class LogowanieTest extends BaseTest{
 
 
     @Test
-    public void FirstTest() throws InterruptedException {
+    public void SignUpTest() throws InterruptedException {
 
-        WebDriverManager.edgedriver().setup();
-        WebDriver driver = new EdgeDriver();
 
         try {
-            driver.manage().window().maximize();
+
             driver.get("http://www.kurs-selenium.pl/demo/");
 
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -70,12 +68,57 @@ public class Logowanie {
 
         } finally {
             Thread.sleep(5000);
-            driver.quit();
+
         }
 
     }
 
+    @Test
+    public void SignUpInvalidTest() throws InterruptedException {
+
+        try {
+
+            driver.get("http://www.kurs-selenium.pl/demo/");
+
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+            driver.findElements(
+                            By.xpath("//li[@id='li_myaccount']")).stream().filter(WebElement::isDisplayed)
+                    .findFirst().ifPresent(WebElement::click);
+
+            //WebElement signup = driver.findElement(
+            //By.cssSelector(".open > ul:nth-child(2) > li:nth-child(2) > a:nth-child(1)"));
+
+            driver.findElements(
+                    By.xpath("//a[text()='  Sign Up']")).get(1).click();
 
 
+            Thread.sleep(3000);
+            WebElement submitbutton= driver.findElement(By.xpath("//button[text()=' Sign Up']"));
+            submitbutton.click();
+
+            Thread.sleep(3000);
+
+            List<String> errors= driver.findElements(By.xpath("//div[@class='alert alert-danger']//p"))
+                    .stream().map(WebElement::getText)
+                    .collect(Collectors.toList());
+
+            //errors.forEach(System.out::println);
+
+            SoftAssert softAssert= new SoftAssert();
+            softAssert.assertTrue(errors.contains("The Email field is required."));
+            softAssert.assertTrue(errors.contains("The Password field is required."));
+            softAssert.assertTrue(errors.contains("The Password field is required."));
+            softAssert.assertTrue(errors.contains("The First name field is required."));
+            softAssert.assertTrue(errors.contains("The Last Name field is required."));
+            softAssert.assertAll();
+
+
+          } finally {
+            Thread.sleep(5000);
+
+        }
+
+    }
 
 }

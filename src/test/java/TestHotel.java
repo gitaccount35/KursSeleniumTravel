@@ -1,10 +1,6 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -14,16 +10,14 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TestHotel {
+public class TestHotel extends BaseTest {
 
     @Test
-    public void FirstTest() throws InterruptedException {
+    public void HotelSearchTest() throws InterruptedException {
 
-        WebDriverManager.firefoxdriver().setup();
-        WebDriver driver = new FirefoxDriver();
 
         try {
-            driver.manage().window().maximize();
+
             driver.get("http://www.kurs-selenium.pl/demo/");
 
             //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -80,18 +74,16 @@ public class TestHotel {
 
         } finally {
             Thread.sleep(5000);
-            driver.quit();
+
         }
 
     }
     @Test
-    public void SecondTest() throws InterruptedException {
+    public void HotelSearchNoResultsTest() throws InterruptedException {
 
-        WebDriverManager.edgedriver().setup();
-        WebDriver driver = new EdgeDriver();
 
         try {
-            driver.manage().window().maximize();
+
             driver.get("http://www.kurs-selenium.pl/demo/");
 
             //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -132,7 +124,7 @@ public class TestHotel {
 
         } finally {
         Thread.sleep(5000);
-        driver.quit();
+
     }
     }
 
