@@ -1,3 +1,5 @@
+package pl.seleniumdemo.test;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -8,7 +10,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LogowanieTest extends BaseTest{
+public class LogowanieTest extends BaseTest {
 
 
     @Test

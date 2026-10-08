@@ -1,3 +1,5 @@
+package pl.seleniumdemo.test;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -5,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pl.seleniumdemo.pages.HotelSearchPage;
 
 import java.time.Duration;
 import java.util.List;
@@ -18,8 +21,19 @@ public class TestHotel extends BaseTest {
 
         try {
 
-            driver.get("http://www.kurs-selenium.pl/demo/");
+            HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
 
+            hotelSearchPage.setCity("Dubai");
+            Thread.sleep(3000);
+            hotelSearchPage.setDates1("14/10/2026");
+            Thread.sleep(2000);
+            hotelSearchPage.setDates2("30/10/2026");
+            Thread.sleep(3000);
+            hotelSearchPage.setTravellers("2");
+            Thread.sleep(3000);
+            hotelSearchPage.performSearch();
+
+            /*
             //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             WebElement location = wait.until(ExpectedConditions.elementToBeClickable(
@@ -58,7 +72,7 @@ public class TestHotel extends BaseTest {
                     By.cssSelector("button.btn-lg:nth-child(3)")));
             submit.submit();
             Thread.sleep(2000);
-
+            */
             List<String> hotelNames = driver.findElements(
                             By.xpath("//h4[contains(@class,'list_title')]//b")).stream()
                     .map((el -> el.getAttribute("textContent")))
