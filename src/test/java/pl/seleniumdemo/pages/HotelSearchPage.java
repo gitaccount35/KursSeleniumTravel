@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class HotelSearchPage {
 
@@ -41,6 +42,13 @@ public class HotelSearchPage {
 
     @FindBy(css = "button.btn-lg:nth-child(3)")
     private WebElement submit;
+
+    @FindBy(xpath = "//li[@id='li_myaccount']")
+    List<WebElement> myaccount;
+
+    @FindBy(xpath ="//a[text()='  Sign Up']" )
+    List<WebElement> signup;
+
 
     private final WebDriverWait wait;
 
@@ -84,5 +92,12 @@ public class HotelSearchPage {
         submit.submit();
     }
 
+    public void setMyAccount() {
+        myaccount.stream().filter(WebElement::isDisplayed)
+                .findFirst().ifPresent(WebElement::click);
+    }
+    public void setSignup() {
+        signup.get(1).click();
+    }
 
 }

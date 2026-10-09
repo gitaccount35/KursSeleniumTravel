@@ -5,6 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pl.seleniumdemo.pages.HotelSearchPage;
+import pl.seleniumdemo.pages.ResultsSearchPage;
+import pl.seleniumdemo.pages.ResultsSignUpPage;
+import pl.seleniumdemo.pages.SignUpPage;
 
 import java.time.Duration;
 import java.util.List;
@@ -18,9 +22,29 @@ public class LogowanieTest extends BaseTest {
 
 
         try {
-
-
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+            HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+            hotelSearchPage.setMyAccount();
+            hotelSearchPage.setSignup();
+
+            SignUpPage signUpPage = new SignUpPage(driver);
+
+            String name="Piotr";
+            signUpPage.setFirstname(name);
+            signUpPage.setLastname("Test");
+            signUpPage.setPhone("+48500500500");
+
+            int randomNumber=(int)(Math.random()*10000);
+            String emailaddress="piotrmail"+randomNumber+"@gmail.com";
+            signUpPage.setEmail(emailaddress);
+            signUpPage.setPassword("12345678");
+            signUpPage.setConfirmpassword("12345678");
+
+            Thread.sleep(3000);
+            signUpPage.clickSubmitbutton();
+
+            /*
             //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             //Thread.sleep(5000);
             //WebElement myaccount = driver.findElement(
@@ -60,11 +84,15 @@ public class LogowanieTest extends BaseTest {
             WebElement submitbutton= driver.findElement(By.xpath("//button[text()=' Sign Up']"));
             submitbutton.click();
 
+            */
             Thread.sleep(3000);
 
-            WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
-            Assert.assertTrue(heading.getText().contains(name));
-            Assert.assertEquals(heading.getText(), "Hi, Piotr Test");
+            //WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
+
+            ResultsSignUpPage resultsSignUpPage = new ResultsSignUpPage(driver);
+
+            Assert.assertTrue(resultsSignUpPage.getHeadingText().contains(name));
+            Assert.assertEquals(resultsSignUpPage.getHeadingText(), "Hi, Piotr Test");
 
 
         } finally {
