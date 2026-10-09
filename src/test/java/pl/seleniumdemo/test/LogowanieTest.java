@@ -19,7 +19,6 @@ public class LogowanieTest extends BaseTest {
 
         try {
 
-            driver.get("http://www.kurs-selenium.pl/demo/");
 
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             //WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -79,8 +78,6 @@ public class LogowanieTest extends BaseTest {
     public void SignUpInvalidTest() throws InterruptedException {
 
         try {
-
-            driver.get("http://www.kurs-selenium.pl/demo/");
 
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 

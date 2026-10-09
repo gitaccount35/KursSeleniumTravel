@@ -20,8 +20,12 @@ public class HotelSearchPage {
     @FindBy(css= ".select2-drop-active input.select2-input")
     private WebElement search;
 
+    /*   usuniete bo bylo zahardkodowane Dubai i zostalo zmienione
+    poprzez dodanie w metodzie nizej setCity odpowiedniej zmiennej miasta
+
     @FindBy(xpath = "//span[@class='select2-match' and text()='Dubai']")
     private WebElement searchHotel;
+    */
 
     @FindBy(css = "form[name='fCustomHotelSearch'] input[name='checkin']")
     private WebElement searchdate1;
@@ -40,8 +44,11 @@ public class HotelSearchPage {
 
     private final WebDriverWait wait;
 
+    private WebDriver driver;
+
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
@@ -49,8 +56,8 @@ public class HotelSearchPage {
         location.click();
         search.sendKeys(city);
         Thread.sleep(3000);
-        searchHotel.click();
-
+        String xpath= String.format("//span[@class='select2-match' and text()='%s']",city);
+        driver.findElement(By.xpath(xpath)).click();
     }
 
     public void setDates1(String checkindate) {
