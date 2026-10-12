@@ -96,7 +96,7 @@ public class HotelSearchPage {
 
     public ResultsSearchPage performSearch()
     {
-        submit.submit();
+        wait.until(ExpectedConditions.elementToBeClickable(submit)).click();
         return new ResultsSearchPage(driver);
     }
 
