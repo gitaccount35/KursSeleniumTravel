@@ -24,15 +24,11 @@ public class TestHotel extends BaseTest {
 
             HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
 
-            hotelSearchPage.setCity("Dubai");
-            Thread.sleep(3000);
-            hotelSearchPage.setDates1("14/10/2026");
-            Thread.sleep(2000);
-            hotelSearchPage.setDates2("30/10/2026");
-            Thread.sleep(3000);
-            hotelSearchPage.setTravellers("2");
-            Thread.sleep(3000);
-            hotelSearchPage.performSearch();
+            List<String> hotelNames = hotelSearchPage.setCity("Dubai")
+                            .setDates1("14/10/2026")
+                            .setDates2("30/10/2026")
+                            .setTravellers("2")
+                            .performSearch().getHotelNames();
 
             /*
             //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -75,8 +71,8 @@ public class TestHotel extends BaseTest {
             Thread.sleep(2000);
             */
 
-            ResultsSearchPage resultsSearchPage = new ResultsSearchPage(driver);
-            List<String> hotelNames=resultsSearchPage.getHotelNames();
+           // ResultsSearchPage resultsSearchPage = new ResultsSearchPage(driver);
+            //List<String> hotelNames=resultsSearchPage.getHotelNames();
 
             /*
 

@@ -60,36 +60,44 @@ public class HotelSearchPage {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public void setCity(String city) throws InterruptedException {
+    public HotelSearchPage setCity(String city) throws InterruptedException {
         location.click();
         search.sendKeys(city);
         Thread.sleep(3000);
         String xpath= String.format("//span[@class='select2-match' and text()='%s']",city);
         driver.findElement(By.xpath(xpath)).click();
+        return this;
     }
 
-    public void setDates1(String checkindate) {
+    public HotelSearchPage setDates1(String checkindate) throws InterruptedException {
+        Thread.sleep(3000);
         searchdate1.click();
         searchdate1.clear();
         searchdate1.sendKeys(checkindate);
+        return this;
     }
 
-    public void setDates2(String checkoutdate) {
+    public HotelSearchPage setDates2(String checkoutdate) {
 
         searchdate2.click();
         searchdate2.clear();
         searchdate2.sendKeys(checkoutdate);
+        return this;
     }
 
-    public void setTravellers(String children) {
+    public HotelSearchPage setTravellers(String children) throws InterruptedException {
         persons.click();
+        Thread.sleep(3000);
         child.clear();
         child.sendKeys(children);
         child.sendKeys(Keys.ENTER);
+        return this;
     }
 
-    public void performSearch() {
+    public ResultsSearchPage performSearch()
+    {
         submit.submit();
+        return new ResultsSearchPage(driver);
     }
 
     public void setMyAccount() {

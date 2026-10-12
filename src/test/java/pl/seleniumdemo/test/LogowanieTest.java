@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pl.seleniumdemo.model.User;
 import pl.seleniumdemo.pages.HotelSearchPage;
 import pl.seleniumdemo.pages.ResultsSearchPage;
 import pl.seleniumdemo.pages.ResultsSignUpPage;
@@ -103,12 +104,68 @@ public class LogowanieTest extends BaseTest {
     }
 
     @Test
+    public void SignUpTest2() throws InterruptedException {
+
+
+        try {
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+            HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+            hotelSearchPage.setMyAccount();
+            hotelSearchPage.setSignup();
+
+            SignUpPage signUpPage = new SignUpPage(driver);
+
+            User user = new User();
+            user.setFistname("Piotr");
+            user.setLastname("Test");
+            user.setPhone("+48500500500");
+
+            int randomNumber=(int)(Math.random()*10000);
+            String emailaddress="piotrmail"+randomNumber+"@gmail.com";
+
+            user.setEmail(emailaddress);
+            user.setPassword("12345678");
+            user.setConfirmpassword("12345678");
+
+            Thread.sleep(3000);
+
+            signUpPage.fillSignUpForm(user);
+
+            Thread.sleep(3000);
+
+            //WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
+
+            ResultsSignUpPage resultsSignUpPage = new ResultsSignUpPage(driver);
+
+            Assert.assertTrue(resultsSignUpPage.getHeadingText().contains(user.getFistname()));
+            Assert.assertEquals(resultsSignUpPage.getHeadingText(), "Hi, Piotr Test");
+
+
+        } finally {
+            Thread.sleep(5000);
+
+        }
+
+    }
+
+    @Test
     public void SignUpInvalidTest() throws InterruptedException {
 
         try {
 
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
+            HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+            hotelSearchPage.setMyAccount();
+            hotelSearchPage.setSignup();
+            Thread.sleep(3000);
+            SignUpPage signUpPage = new SignUpPage(driver);
+            signUpPage.clickSubmitbutton();
+
+            List <String> errors=signUpPage.getErrors();
+
+            /*
             driver.findElements(
                             By.xpath("//li[@id='li_myaccount']")).stream().filter(WebElement::isDisplayed)
                     .findFirst().ifPresent(WebElement::click);
@@ -131,6 +188,7 @@ public class LogowanieTest extends BaseTest {
                     .collect(Collectors.toList());
 
             //errors.forEach(System.out::println);
+            */
 
             SoftAssert softAssert= new SoftAssert();
             softAssert.assertTrue(errors.contains("The Email field is required."));

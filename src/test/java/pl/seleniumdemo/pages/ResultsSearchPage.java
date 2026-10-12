@@ -21,7 +21,9 @@ public class ResultsSearchPage {
         PageFactory.initElements(driver, this);
     }
 
-    public List<String> getHotelNames() {
+    public List<String> getHotelNames() throws InterruptedException {
+
+        Thread.sleep(3000);
         return hotelNames.stream()
                 .map((el -> el.getAttribute("textContent")))
                 .collect(Collectors.toList());

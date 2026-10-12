@@ -1,11 +1,9 @@
 package pl.seleniumdemo.test;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import pl.seleniumdemo.utils.DriverFactory;
 
 public class BaseTest {
 
@@ -14,8 +12,7 @@ public class BaseTest {
     @BeforeMethod
     public void setup(){
 
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
+        driver = DriverFactory.getdriver("Edge");
         driver.manage().window().maximize();
         driver.get("http://www.kurs-selenium.pl/demo/");
 
