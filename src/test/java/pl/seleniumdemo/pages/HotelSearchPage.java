@@ -1,5 +1,7 @@
 package pl.seleniumdemo.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -54,6 +56,8 @@ public class HotelSearchPage {
 
     private WebDriver driver;
 
+    private static final Logger logger = LogManager.getLogger();
+
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
@@ -61,42 +65,53 @@ public class HotelSearchPage {
     }
 
     public HotelSearchPage setCity(String city) throws InterruptedException {
+        logger.info("Searching for city: " + city);
         location.click();
         search.sendKeys(city);
         Thread.sleep(3000);
         String xpath= String.format("//span[@class='select2-match' and text()='%s']",city);
         driver.findElement(By.xpath(xpath)).click();
+        logger.info("hotel search done");
         return this;
     }
 
     public HotelSearchPage setDates1(String checkindate) throws InterruptedException {
+
+        logger.info("Searching for date from: " + checkindate);
         Thread.sleep(3000);
         searchdate1.click();
         searchdate1.clear();
         searchdate1.sendKeys(checkindate);
+        logger.info("date from input done");
         return this;
     }
 
     public HotelSearchPage setDates2(String checkoutdate) {
 
+        logger.info("Searching for date to: " + checkoutdate);
         searchdate2.click();
         searchdate2.clear();
         searchdate2.sendKeys(checkoutdate);
+        logger.info("date to input done");
         return this;
     }
 
     public HotelSearchPage setTravellers(String children) throws InterruptedException {
+
+        logger.info("Searching for travellers children: " + children);
         persons.click();
         Thread.sleep(3000);
         child.clear();
         child.sendKeys(children);
         child.sendKeys(Keys.ENTER);
+        logger.info("travellers search done");
         return this;
     }
 
     public ResultsSearchPage performSearch()
     {
         wait.until(ExpectedConditions.elementToBeClickable(submit)).click();
+        logger.info("hotel search clicked");
         return new ResultsSearchPage(driver);
     }
 
