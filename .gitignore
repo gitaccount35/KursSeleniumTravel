@@ -37,3 +37,15 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/index.html
+/src/test/resources/Screenshots/screenshot679.png
+/src/test/resources/Screenshots/screenshot756.png
+/src/test/resources/Screenshots/screenshot1205.png
+/src/test/resources/Screenshots/screenshot1231.png
+/src/test/resources/Screenshots/screenshot1888.png
+/src/test/resources/Screenshots/screenshot1901.png
+/src/test/resources/Screenshots/screenshot3775.png
+/src/test/resources/Screenshots/screenshot5291.png
+/src/test/resources/Screenshots/screenshot7111.png
+/src/test/resources/Screenshots/screenshot8771.png
+/src/test/resources/Screenshots/screenshot9173.png
